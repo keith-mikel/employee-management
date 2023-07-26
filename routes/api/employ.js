@@ -1,17 +1,89 @@
 const express = require('express');
 const router = express.Router();
 
-// Define your routes for the /api/employ endpoint
-router.get('/', (req, res) => {
-  // Implement your logic to get all employees
-  res.send('Get all employees');
+// Define your routes for the /api/employees endpoint
+
+// GET all employees
+router.get('/', async (req, res) => {
+  try {
+    const pool = req.pool; // Access the database pool from the request object
+    const [employees] = await pool.query('SELECT * FROM employee');
+    res.json(employees);
+  } catch (error) {
+    console.error('Error fetching employees:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-router.get('/:id', (req, res) => {
-  // Implement your logic to get a specific employee by ID
-  res.send(`Get employee with ID ${req.params.id}`);
+// GET a specific employee by ID
+router.get('/:id', async (req, res) => {
+  const employeeId = req.params.id;
+
+  try {
+    const pool = req.pool; // Access the database pool from the request object
+    const [employee] = await pool.query('SELECT * FROM employee WHERE id = ?', [employeeId]);
+
+    if (employee.length > 0) {
+      res.json(employee[0]);
+    } else {
+      res.status(404).send('Employee not found');
+    }
+  } catch (error) {
+    console.error('Error fetching employee:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-// Add more routes for POST, PUT, DELETE operations if required
+// CREATE a new employee
+router.post('/', async (req, res) => {
+  const { first_name, last_name, role_id, manager_id } = req.body;
+
+  try {
+    const pool = req.pool; // Access the database pool from the request object
+    await pool.query(
+      'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+      [first_name, last_name, role_id, manager_id]
+    );
+
+    res.status(201).send('Employee created successfully');
+  } catch (error) {
+    console.error('Error creating employee:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// UPDATE an employee by ID
+router.put('/:id', async (req, res) => {
+  const employeeId = req.params.id;
+  const { first_name, last_name, role_id, manager_id } = req.body;
+
+  try {
+    const pool = req.pool; // Access the database pool from the request object
+    await pool.query(
+      'UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id = ?',
+      [first_name, last_name, role_id, manager_id, employeeId]
+    );
+
+    res.send('Employee updated successfully');
+  } catch (error) {
+    console.error('Error updating employee:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// DELETE an employee by ID
+router.delete('/:id', async (req, res) => {
+  const employeeId = req.params.id;
+
+  try {
+    const pool = req.pool; // Access the database pool from the request object
+    await pool.query('DELETE FROM employee WHERE id = ?', [employeeId]);
+
+    res.send('Employee deleted successfully');
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;
