@@ -32,3 +32,6 @@ app.listen(PORT, () => {
   console.log(`Server started on http://localhost:${PORT}`);
 });
 
+
+// Export the pool object
+module.exports = pool;

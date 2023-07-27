@@ -40,12 +40,19 @@ router.post('/', async (req, res) => {
 
   try {
     const pool = req.pool; // Access the database pool from the request object
-    await pool.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, department_id]);
+    const [result] = await pool.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, department_id]);
+    const roleId = result.insertId;
 
-    res.status(201).send('Role created successfully');
+    const [role] = await pool.query('SELECT * FROM role WHERE id = ?', [roleId]);
+
+    if (role.length > 0) {
+      res.status(201).json({ message: `Role "${title}" with ID ${roleId} created`, role: role[0] });
+    } else {
+      res.status(500).json({ error: 'Failed to fetch the created role from the database' });
+    }
   } catch (error) {
     console.error('Error creating role:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -74,13 +81,22 @@ router.delete('/:id', async (req, res) => {
 
   try {
     const pool = req.pool; // Access the database pool from the request object
-    await pool.query('DELETE FROM role WHERE id = ?', [roleId]);
+    const [deletedRole] = await pool.query('DELETE FROM role WHERE id = ?', [roleId]);
 
-    res.send('Role deleted successfully');
+    if (deletedRole.affectedRows > 0) {
+      res.send({
+        message: `Role successfully deleted`,
+      });
+    } else {
+      res.status(404).send('Role not found');
+    }
   } catch (error) {
     console.error('Error deleting role:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+
 
 module.exports = router;

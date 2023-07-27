@@ -34,21 +34,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
 // CREATE a new employee
 router.post('/', async (req, res) => {
   const { first_name, last_name, role_id, manager_id } = req.body;
 
   try {
     const pool = req.pool; // Access the database pool from the request object
-    await pool.query(
-      'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
-      [first_name, last_name, role_id, manager_id]
-    );
+    const [result] = await pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [first_name, last_name, role_id, manager_id]);
 
-    res.status(201).send('Employee created successfully');
+    res.status(201).json({ message: `Employee "${first_name} ${last_name}" with ID ${result.insertId} created`, employee: { id: result.insertId, first_name, last_name, role_id, manager_id } });
   } catch (error) {
     console.error('Error creating employee:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -79,7 +77,7 @@ router.delete('/:id', async (req, res) => {
     const pool = req.pool; // Access the database pool from the request object
     await pool.query('DELETE FROM employee WHERE id = ?', [employeeId]);
 
-    res.send('Employee deleted successfully');
+    res.json({ message: `Employee Successfully deleted`});
   } catch (error) {
     console.error('Error deleting employee:', error);
     res.status(500).send('Internal Server Error');
