@@ -62,7 +62,7 @@ router.put('/:id', async (req, res) => {
       [first_name, last_name, role_id, manager_id, employeeId]
     );
 
-    res.send('Employee updated successfully');
+    res.json({message:'Employee updated successfully'});
   } catch (error) {
     console.error('Error updating employee:', error);
     res.status(500).send('Internal Server Error');

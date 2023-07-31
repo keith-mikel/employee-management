@@ -96,7 +96,7 @@ async function addEmployee() {
 }
 
 // Function to start the CLI and ask for user input
-async function startCLI() {
+async function startAddCLI() {
   const answers = await inquirer.prompt([
     {
       type: 'list',
@@ -122,4 +122,10 @@ async function startCLI() {
 }
 
 // Call the startCLI function to begin the CLI interaction
-startCLI();
+
+
+module.exports = {
+  addDepartment,
+  addRole,
+  addEmployee,
+};

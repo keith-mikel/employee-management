@@ -102,7 +102,7 @@ async function deleteEmployee() {
   }
 
 // Function to start the CLI and ask for user input
-async function startCLI() {
+async function startDeleteCLI() {
   const answers = await inquirer.prompt([
     {
       type: 'list',
@@ -128,4 +128,10 @@ async function startCLI() {
 }
 
 // Call the startCLI function to begin the CLI interaction
-startCLI();
+
+
+module.exports = {
+  deleteDepartment,
+  deleteRole,
+  deleteEmployee,
+};
