@@ -6,6 +6,7 @@ const { viewDepartments, viewRoles, viewEmployees } = require('./view');
 
 const rl = inquirer.createPromptModule();
 
+//access all the other files by the one prompt for action
 async function startApp() {
   let exit = false;
 

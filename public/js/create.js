@@ -121,8 +121,6 @@ async function startAddCLI() {
   }
 }
 
-// Call the startCLI function to begin the CLI interaction
-
 
 module.exports = {
   addDepartment,

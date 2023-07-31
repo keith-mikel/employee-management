@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Define your routes for the /api/employees endpoint
+// employee endpoints
 
 // GET all employees
 router.get('/', async (req, res) => {
@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   const employeeId = req.params.id;
 
   try {
-    const pool = req.pool; // Access the database pool from the request object
+    const pool = req.pool; 
     await pool.query('DELETE FROM employee WHERE id = ?', [employeeId]);
 
     res.json({ message: `Employee Successfully deleted`});

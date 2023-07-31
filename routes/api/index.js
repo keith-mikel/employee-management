@@ -4,6 +4,7 @@ const deptRoutes = require('./dept');
 const employRoutes = require('./employ');
 const roleRoutes = require('./role');
 
+//routes
 router.use('/department', deptRoutes);
 router.use('/employee', employRoutes);
 router.use('/role', roleRoutes);

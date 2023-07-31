@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Define your routes for the /api/role endpoint
+// role endopoints
 
 // GET all roles
 router.get('/', async (req, res) => {

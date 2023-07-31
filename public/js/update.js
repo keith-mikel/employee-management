@@ -155,7 +155,6 @@ async function updateData() {
   await updateData();
 }
 
-// Call the updateData function to begin the update process
 
 
 module.exports = {

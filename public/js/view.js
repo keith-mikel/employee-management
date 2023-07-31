@@ -70,7 +70,6 @@ async function startViewCLI() {
   await startViewCLI();
 }
 
-// Call the startCLI function to begin the CLI interaction
 
 
 module.exports = {
