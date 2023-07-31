@@ -58,6 +58,9 @@ After selecting one of these you will choose between the 3 table items
 
 from there you will be guided on how to proceed from the CLI be it confirming deletion, prompting for information on the update or creation, or presenting a table to view.
 
+## Video Demo
+https://drive.google.com/file/d/1651wDnGxBadg8PRZnJbhSSy54CxF3TQl/view
+
 
 <a name="contribution"></a>
 ## Contribution

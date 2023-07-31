@@ -72,3 +72,10 @@ async function startViewCLI() {
 
 // Call the startCLI function to begin the CLI interaction
 
+
+module.exports = {
+  viewDepartments,
+  viewRoles,
+  viewEmployees,
+  startViewCLI,
+};
